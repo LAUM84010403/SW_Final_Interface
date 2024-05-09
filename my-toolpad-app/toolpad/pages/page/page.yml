@@ -3,5 +3,27 @@
 apiVersion: v1
 kind: page
 spec:
-  id: dZd3c7J
   title: Default page
+  alias:
+    - dZd3c7J
+  content:
+    - component: DataGrid
+      name: dataGrid
+  queries:
+    - name: listeall
+      mode: query
+      query:
+        kind: rest
+        url: https://sw-final-api-2.onrender.com/api/taches/tous
+        headers:
+          [
+            {
+              name: Authorization,
+              value: { $$jsExpression: parameters.api_cle },
+            },
+          ]
+        method: GET
+      parameters:
+        - name: api_cle
+          value:
+            $$env: cleAPI
