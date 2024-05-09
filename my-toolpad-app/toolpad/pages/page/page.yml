@@ -7,8 +7,145 @@ spec:
   alias:
     - dZd3c7J
   content:
-    - component: DataGrid
-      name: dataGrid
+    - component: Text
+      name: text
+      props:
+        value: LISTE ET CRUD DES TÂCHES
+        variant: h3
+      layout:
+        columnSize: 1.681241184767278
+    - component: PageRow
+      name: pageRow
+      props:
+        justifyContent: start
+        gap: 3
+      children:
+        - component: PageColumn
+          name: pageColumn
+          layout:
+            columnSize: 1.1976400279717458
+          children:
+            - component: DataGrid
+              name: gridTache
+              layout:
+                columnSize: 1
+              props:
+                rows:
+                  $$jsExpression: listeall.rows
+                columns:
+                  - field: id
+                    type: number
+                    width: 50
+                  - field: utilisateur_id
+                    type: number
+                    width: 143
+                  - field: titre
+                    type: string
+                  - field: description
+                    type: string
+                  - field: date_debut
+                    type: dateTime
+                  - field: date_echeance
+                    type: dateTime
+                  - field: complete
+                    type: json
+                  - field: tache_id
+                    type: number
+            - component: Checkbox
+              name: switch
+              layout:
+                columnSize: 1
+              props:
+                mode: switch
+                label: Fini
+        - component: DataGrid
+          name: gridSousTache
+          layout:
+            columnSize: 0.8023599720282542
+    - component: PageRow
+      name: pageRow2
+      props:
+        justifyContent: start
+      children:
+        - component: Text
+          name: text1
+          props:
+            value: "ID :"
+            variant: h6
+        - component: Text
+          name: text2
+          props:
+            value:
+              $$jsExpression: gridTache.selection.id
+        - component: Text
+          name: text3
+          props:
+            value: "TITRE:"
+            variant: h6
+        - component: Text
+          name: text4
+          props:
+            value:
+              $$jsExpression: gridTache.selection.titre
+    - component: PageRow
+      name: pageRow3
+      props:
+        justifyContent: start
+      children:
+        - component: Text
+          name: text5
+          props:
+            value: "CRÉATION:"
+            variant: h6
+        - component: Text
+          name: text5
+          props:
+            value:
+              $$jsExpression: gridTache.selection.date_debut
+        - component: Text
+          name: text5
+          props:
+            value: "FINITION:"
+            variant: h6
+        - component: Text
+          name: text5
+          props:
+            value:
+              $$jsExpression: gridTache.selection.date_echeance
+    - component: Checkbox
+      name: switch1
+      props:
+        mode: switch
+        size: medium
+        color: info
+        labelPlacement: start
+        label: COMPLETION
+      layout:
+        horizontalAlign: center
+        verticalAlign: center
+    - component: PageRow
+      name: pageRow4
+      props:
+        justifyContent: start
+      children:
+        - component: Button
+          name: button
+          props:
+            content: SUPPRIMER TÂCHE
+        - component: Button
+          name: button1
+          props:
+            content: COMPLETER TÂCHE
+        - component: Button
+          name: button2
+          props:
+            content: SUPPRIMER          SOUS-TÂCHE
+        - component: Button
+          name: button3
+          props:
+            content: COMPLETER SOUS-TÂCHE
+    - component: Spacer
+      name: spacer
   queries:
     - name: listeall
       mode: query
