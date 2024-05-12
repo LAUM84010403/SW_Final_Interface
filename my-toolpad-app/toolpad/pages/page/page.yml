@@ -31,14 +31,14 @@ spec:
                 columnSize: 1
               props:
                 rows:
-                  $$jsExpression: listeall.rows
+                  $$jsExpression: "switchFini.checked ? allListe.rows : listeall.rows"
                 columns:
                   - field: id
                     type: number
                     width: 50
                   - field: utilisateur_id
                     type: number
-                    width: 143
+                    width: 155
                   - field: titre
                     type: string
                   - field: description
@@ -51,10 +51,9 @@ spec:
                     type: json
                   - field: tache_id
                     type: number
+                density: standard
             - component: Checkbox
-              name: switch
-              layout:
-                columnSize: 1
+              name: switchFini
               props:
                 mode: switch
                 label: Fini
@@ -62,6 +61,22 @@ spec:
           name: gridSousTache
           layout:
             columnSize: 0.8023599720282542
+            height: 244
+          props:
+            rows:
+              $$jsExpression: listeSous.rows
+            columns:
+              - field: id
+                type: number
+                width: 50
+              - field: tache_id
+                type: number
+              - field: titre
+                type: string
+                width: 135
+              - field: complete
+                type: json
+            loading: false
     - component: PageRow
       name: pageRow2
       props:
@@ -72,21 +87,19 @@ spec:
           props:
             value: "ID :"
             variant: h6
+          layout:
+            columnSize: 0.22303943579481667
         - component: Text
           name: text2
           props:
             value:
               $$jsExpression: gridTache.selection.id
-        - component: Text
-          name: text3
-          props:
-            value: "TITRE:"
-            variant: h6
-        - component: Text
-          name: text4
-          props:
-            value:
-              $$jsExpression: gridTache.selection.titre
+          layout:
+            columnSize: 0.22303147838498322
+        - component: Spacer
+          name: spacer1
+          layout:
+            columnSize: 2.5539290858202
     - component: PageRow
       name: pageRow3
       props:
@@ -98,31 +111,50 @@ spec:
             value: "CRÉATION:"
             variant: h6
         - component: Text
-          name: text5
+          name: text3
           props:
             value:
               $$jsExpression: gridTache.selection.date_debut
         - component: Text
-          name: text5
+          name: text4
           props:
-            value: "FINITION:"
+            value: FIN
             variant: h6
         - component: Text
-          name: text5
+          name: text6
           props:
             value:
               $$jsExpression: gridTache.selection.date_echeance
-    - component: Checkbox
-      name: switch1
+    - component: PageRow
+      name: pageRow1
       props:
-        mode: switch
-        size: medium
-        color: info
-        labelPlacement: start
-        label: COMPLETION
-      layout:
-        horizontalAlign: center
-        verticalAlign: center
+        justifyContent: start
+      children:
+        - component: Text
+          name: text7
+          props:
+            value: "TITRE:"
+            variant: h6
+        - component: Text
+          name: text8
+          props:
+            value:
+              $$jsExpression: gridTache.selection.titre
+    - component: PageRow
+      name: pageRow5
+      props:
+        justifyContent: start
+      children:
+        - component: Text
+          name: text9
+          props:
+            value: "DESCRIPTION:"
+            variant: h6
+        - component: Text
+          name: text10
+          props:
+            value:
+              $$jsExpression: gridTache.selection.description
     - component: PageRow
       name: pageRow4
       props:
@@ -132,6 +164,8 @@ spec:
           name: button
           props:
             content: SUPPRIMER TÂCHE
+            onClick:
+              $$jsExpressionAction: action.call();action.fetch()
         - component: Button
           name: button1
           props:
@@ -144,8 +178,139 @@ spec:
           name: button3
           props:
             content: COMPLETER SOUS-TÂCHE
+            onClick:
+              $$jsExpressionAction: statueSousTache.fetch()
     - component: Spacer
       name: spacer
+    - component: PageRow
+      name: pageRow6
+      props:
+        justifyContent: start
+      children:
+        - component: PageColumn
+          name: pageColumn1
+          layout:
+            columnSize: 1
+          children:
+            - component: Text
+              name: text11
+              props:
+                value: Créer une tache
+                variant: h5
+              layout:
+                columnSize: 1
+            - component: Form
+              name: form
+              children:
+                - component: PageColumn
+                  name: pageColumn4
+                  children:
+                    - component: PageRow
+                      name: pageRow11
+                      props:
+                        justifyContent: start
+                      children:
+                        - component: Text
+                          name: text14
+                          layout:
+                            columnSize: 1
+                          props:
+                            value: TITRE
+                        - component: TextField
+                          name: textField
+                    - component: PageRow
+                      name: pageRow8
+                      props:
+                        justifyContent: start
+                      children:
+                        - component: Text
+                          name: text15
+                          props:
+                            value: DESCRIPTION
+                        - component: TextField
+                          name: textField1
+                          layout:
+                            columnSize: 1
+                    - component: PageRow
+                      name: pageRow7
+                      props:
+                        justifyContent: start
+                      children:
+                        - component: PageColumn
+                          name: pageColumn5
+                          layout:
+                            columnSize: 1
+                          children:
+                            - component: Text
+                              name: text13
+                              layout:
+                                columnSize: 1
+                            - component: Checkbox
+                              name: switch
+                              props:
+                                mode: switch
+                                label: COMPLETÉ
+                        - component: DatePicker
+                          name: datePicker
+                          layout:
+                            columnSize: 1
+                  layout:
+                    columnSize: 1
+              props:
+                submitButtonText: CRÉER
+        - component: Form
+          name: form1
+          layout:
+            columnSize: 1
+          children:
+            - component: PageColumn
+              name: pageColumn3
+              children:
+                - component: Text
+                  name: text12
+                  layout:
+                    columnSize: 1
+                  props:
+                    value: Créer Sous tâche
+                    variant: h5
+                - component: PageRow
+                  name: pageRow9
+                  props:
+                    justifyContent: start
+                  children:
+                    - component: Text
+                      name: text17
+                      layout:
+                        columnSize: 1
+                      props:
+                        value: TITRE
+                    - component: TextField
+                      name: textField2
+                - component: PageRow
+                  name: pageRow10
+                  props:
+                    justifyContent: start
+                  children:
+                    - component: Text
+                      name: text17
+                      props:
+                        value: ID DE LA TÂCHE
+                    - component: Text
+                      name: text18
+                      props:
+                        value:
+                          $$jsExpression: gridTache.selection.id
+                - component: Checkbox
+                  name: switch1
+                  props:
+                    mode: switch
+                    label: COMPLETÉ
+                  layout:
+                    columnSize: 1
+              layout:
+                columnSize: 1
+          props:
+            submitButtonText: CRÉER
   queries:
     - name: listeall
       mode: query
@@ -160,7 +325,106 @@ spec:
             },
           ]
         method: GET
+        searchParams: []
       parameters:
         - name: api_cle
+          value:
+            $$env: cleAPI
+    - name: listeSous
+      mode: query
+      query:
+        kind: rest
+        url:
+          $$jsExpression:
+            "`https://sw-final-api-2.onrender.com/api/taches/sous/tous?id=$\
+            {parameters.tache_id}`"
+        headers:
+          [
+            {
+              name: Authorization,
+              value: { $$jsExpression: parameters.api_cle },
+            },
+          ]
+        method: GET
+        searchParams: []
+      parameters:
+        - name: api_cle
+          value:
+            $$env: cleAPI
+        - name: tache_id
+          value:
+            $$jsExpression: gridTache.selection.id
+    - name: allListe
+      mode: query
+      query:
+        kind: rest
+        url: https://sw-final-api-2.onrender.com/api/taches/tous?complete=true
+        headers:
+          - name: Authorization
+            value:
+              $$jsExpression: parameters.api_cle
+        method: GET
+        searchParams: []
+      parameters:
+        - name: api_cle
+          value:
+            $$env: cleAPI
+    - name: supprimerTache
+      mode: query
+      query:
+        kind: rest
+        url:
+          $$jsExpression:
+            "`https://sw-final-api-2.onrender.com/api/taches/supprimer?id=$\
+            {parameters.tache_id}`"
+        headers:
+          - name: Authorization
+            value:
+              $$jsExpression: parameters.api_cle
+        method: POST
+      parameters:
+        - name: api_cle
+          value:
+            $$env: cleAPI
+        - name: id
+          value:
+            $$jsExpression: gridTache.selection.id
+    - name: statueSousTache
+      mode: query
+      query:
+        kind: rest
+        url:
+          $$jsExpression:
+            "`https://sw-final-api-2.onrender.com/api/taches/sous/modifierS\
+            tatut?id=${parameters.soustache_id}`"
+        headers: []
+        method: POST
+        body:
+          kind: raw
+          content:
+            $$jsExpression: complet = parameters.complet
+          contentType: application/json
+      parameters:
+        - name: soustache_id
+          value:
+            $$jsExpression: gridSousTache.selection.id
+        - name: complet
+          value:
+            $$jsExpression: gridSousTache.selection.complete
+    - name: action
+      mode: mutation
+      query:
+        kind: rest
+        url:
+          $$jsExpression:
+            "`https://sw-final-api-2.onrender.com/api/taches/supprimer?id=$\
+            {parameters.tache_id}`"
+        headers:
+          - name: Authorization
+            value:
+              $$jsExpression: parameters.cle_api
+        method: GET
+      parameters:
+        - name: cle_api
           value:
             $$env: cleAPI
