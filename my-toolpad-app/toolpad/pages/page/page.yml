@@ -64,7 +64,7 @@ spec:
             height: 244
           props:
             rows:
-              $$jsExpression: listeSous.rows
+              $$jsExpression: listeSous.rows ?? "Séléctionné une tâche!"
             columns:
               - field: id
                 type: number
@@ -93,7 +93,7 @@ spec:
           name: text2
           props:
             value:
-              $$jsExpression: gridTache.selection.id
+              $$jsExpression: gridTache.selection.id ?? '1'
           layout:
             columnSize: 0.22303147838498322
         - component: Spacer
@@ -135,11 +135,15 @@ spec:
           props:
             value: "TITRE:"
             variant: h6
+          layout:
+            columnSize: 0.4899598393574297
         - component: Text
           name: text8
           props:
             value:
               $$jsExpression: gridTache.selection.titre
+          layout:
+            columnSize: 1.5100401606425704
     - component: PageRow
       name: pageRow5
       props:
@@ -150,11 +154,15 @@ spec:
           props:
             value: "DESCRIPTION:"
             variant: h6
+          layout:
+            columnSize: 0.4899598393574298
         - component: Text
           name: text10
           props:
             value:
               $$jsExpression: gridTache.selection.description
+          layout:
+            columnSize: 1.5100401606425702
     - component: PageRow
       name: pageRow4
       props:
@@ -165,7 +173,7 @@ spec:
           props:
             content: SUPPRIMER TÂCHE
             onClick:
-              $$jsExpressionAction: action.call();action.fetch()
+              $$jsExpressionAction: action.call();listeall.refetch();allListe.refetch()
         - component: Button
           name: button1
           props:
@@ -217,7 +225,7 @@ spec:
                           props:
                             value: TITRE
                         - component: TextField
-                          name: textField
+                          name: textField4
                     - component: PageRow
                       name: pageRow8
                       props:
@@ -228,7 +236,7 @@ spec:
                           props:
                             value: DESCRIPTION
                         - component: TextField
-                          name: textField1
+                          name: textField5
                           layout:
                             columnSize: 1
                     - component: PageRow
@@ -245,13 +253,15 @@ spec:
                               name: text13
                               layout:
                                 columnSize: 1
+                              props:
+                                value: FIN
                             - component: Checkbox
                               name: switch
                               props:
                                 mode: switch
                                 label: COMPLETÉ
                         - component: DatePicker
-                          name: datePicker
+                          name: datePicker1
                           layout:
                             columnSize: 1
                   layout:
@@ -292,11 +302,11 @@ spec:
                     justifyContent: start
                   children:
                     - component: Text
-                      name: text17
+                      name: text16
                       props:
                         value: ID DE LA TÂCHE
                     - component: Text
-                      name: text18
+                      name: text24
                       props:
                         value:
                           $$jsExpression: gridTache.selection.id
@@ -311,6 +321,138 @@ spec:
                 columnSize: 1
           props:
             submitButtonText: CRÉER
+    - component: Spacer
+      name: spacer2
+    - component: PageRow
+      name: pageRow13
+      props:
+        justifyContent: start
+      children:
+        - component: Text
+          name: text18
+          props:
+            value: Modifier tâche
+            variant: h5
+        - component: Text
+          name: text19
+          props:
+            value: Modifier Sous tâche
+            variant: h5
+    - component: PageRow
+      name: pageRow12
+      props:
+        justifyContent: start
+      children:
+        - component: Form
+          name: form2
+          children:
+            - component: PageRow
+              name: pageRow15
+              props:
+                justifyContent: start
+              children:
+                - component: PageColumn
+                  name: pageColumn7
+                  layout:
+                    columnSize: 1
+                  children:
+                    - component: Text
+                      name: text23
+                      layout:
+                        columnSize: 1
+                      props:
+                        value: ID DE LA TÂCHE
+                    - component: Text
+                      name: text25
+                      layout:
+                        columnSize: 1
+                      props:
+                        value: TITRE
+                    - component: Text
+                      name: text26
+                      props:
+                        value: DESCRIPTION
+                    - component: Text
+                      name: text27
+                      layout:
+                        columnSize: 1
+                      props:
+                        value: FIN
+                    - component: Checkbox
+                      name: switch3
+                      props:
+                        mode: switch
+                        label: COMPLETÉ
+                - component: PageColumn
+                  name: pageColumn8
+                  layout:
+                    columnSize: 1
+                  children:
+                    - component: Text
+                      name: text21
+                      layout:
+                        columnSize: 1
+                      props:
+                        value:
+                          $$jsExpression: gridTache.selection.id
+                    - component: TextField
+                      name: textField
+                    - component: TextField
+                      name: textField1
+                      layout:
+                        columnSize: 1
+                    - component: DatePicker
+                      name: datePicker
+                      layout:
+                        columnSize: 1
+                    - component: Spacer
+                      name: spacer3
+        - component: Form
+          name: form3
+          children:
+            - component: PageRow
+              name: pageRow14
+              props:
+                justifyContent: start
+              children:
+                - component: PageColumn
+                  name: pageColumn2
+                  layout:
+                    columnSize: 1
+                  children:
+                    - component: Text
+                      name: text20
+                      layout:
+                        columnSize: 1
+                      props:
+                        value: ID DE LA SOUS-TÂCHE
+                    - component: Text
+                      name: text22
+                      layout:
+                        columnSize: 1
+                      props:
+                        value: TITRE
+                    - component: Checkbox
+                      name: switch2
+                      layout:
+                        columnSize: 1
+                      props:
+                        mode: switch
+                        label: COMPLETÉ
+                - component: PageColumn
+                  name: pageColumn6
+                  layout:
+                    columnSize: 1
+                  children:
+                    - component: Text
+                      name: text28
+                      layout:
+                        columnSize: 1
+                      props:
+                        value:
+                          $$jsExpression: gridSousTache.selection.id
+                    - component: TextField
+                      name: textField3
   queries:
     - name: listeall
       mode: query
@@ -353,7 +495,7 @@ spec:
             $$env: cleAPI
         - name: tache_id
           value:
-            $$jsExpression: gridTache.selection.id
+            $$jsExpression: gridTache.selection.id ?? 'akita'
     - name: allListe
       mode: query
       query:
@@ -382,6 +524,7 @@ spec:
             value:
               $$jsExpression: parameters.api_cle
         method: POST
+        searchParams: []
       parameters:
         - name: api_cle
           value:
@@ -389,8 +532,32 @@ spec:
         - name: id
           value:
             $$jsExpression: gridTache.selection.id
-    - name: statueSousTache
-      mode: query
+    - name: supprimeSousTache
+      mode: mutation
+      query:
+        kind: rest
+        url:
+          $$jsExpression:
+            "`https://sw-final-api-2.onrender.com/api/taches/supprimer?id=$\
+            {parameters.tache_id}`"
+        headers:
+          [
+            {
+              name: Authorization,
+              value: { $$jsExpression: parameters.cle_api },
+            },
+          ]
+        method: POST
+        searchParams: []
+      parameters:
+        - name: cle_api
+          value:
+            $$env: cleAPI
+        - name: tache_id
+          value:
+            $$jsExpression: gridTache.selection.id
+    - name: action
+      mode: mutation
       query:
         kind: rest
         url:
@@ -402,29 +569,16 @@ spec:
         body:
           kind: raw
           content:
-            $$jsExpression: complet = parameters.complet
-          contentType: application/json
+            $$jsExpression: "`{\r
+
+              \  \"complet\": ${parameters.complete} \r
+
+              }`"
+          contentType: text/plain
       parameters:
-        - name: soustache_id
-          value:
-            $$jsExpression: gridSousTache.selection.id
         - name: complet
           value:
-            $$jsExpression: gridSousTache.selection.complete
-    - name: action
-      mode: mutation
-      query:
-        kind: rest
-        url:
-          $$jsExpression:
-            "`https://sw-final-api-2.onrender.com/api/taches/supprimer?id=$\
-            {parameters.tache_id}`"
-        headers:
-          - name: Authorization
-            value:
-              $$jsExpression: parameters.cle_api
-        method: GET
-      parameters:
+            $$jsExpression: gridSousTache.selection.complet
         - name: cle_api
           value:
             $$env: cleAPI
